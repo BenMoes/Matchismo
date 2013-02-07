@@ -18,6 +18,8 @@
 
 - (Card *)cardAtIndex:(NSUInteger)index;
 
+@property (strong, nonatomic, readonly) NSString *gameTurn;
 @property (nonatomic, readonly) int score;
+
 
 @end

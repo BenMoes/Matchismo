@@ -10,7 +10,9 @@
 
 @interface CardMatchingGame()
 @property (strong, nonatomic) NSMutableArray *cards;
+@property (strong, nonatomic, readwrite) NSString *gameTurn;
 @property (nonatomic, readwrite) int score;
+
 @end
 
 @implementation CardMatchingGame
@@ -19,6 +21,12 @@
 {
     if (!_cards) _cards = [[NSMutableArray alloc] init];
     return _cards;
+}
+
+- (NSString *)gameTurn
+{
+    if (!_gameTurn) _gameTurn = [[NSString alloc] init];
+    return _gameTurn;
 }
 
 - (id)initWithCardCount:(NSUInteger)count usingDeck:(Deck *) deck
@@ -49,9 +57,12 @@
 
 - (void)flipCardAtIndex:(NSUInteger)index
 {
+    
+    self.gameTurn = @"";
     Card *card = [self cardAtIndex:index];
     if (!card.isUnplayable) {
         if (!card.isFaceUp) {
+            self.gameTurn = [NSString stringWithFormat:@"Turned %@", card];
             for (Card *otherCard in self.cards) {
                 if (otherCard.isFaceUp && !otherCard.isUnplayable) {
                     int matchScore = [card match:@[otherCard]];
@@ -59,9 +70,13 @@
                         otherCard.unplayable = YES;
                         card.unplayable = YES;
                         self.score += matchScore * MATCH_BONUS;
+                        self.gameTurn = [NSString stringWithFormat:@"Matched %@, %@ for %d points",
+                                         card, otherCard, matchScore * MATCH_BONUS];
                     } else {
                         otherCard.faceUp = NO;
                         self.score -= MISMATCH_PENALTY;
+                        self.gameTurn = [NSString stringWithFormat:@"Mismatched %@, %@ for %d points",
+                                         card, otherCard, MISMATCH_PENALTY];
                     }
                     break;
                 }
