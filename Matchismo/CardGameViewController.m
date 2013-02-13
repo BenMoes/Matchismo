@@ -22,27 +22,23 @@
 
 @implementation CardGameViewController
 
-- (CardMatchingGame *)game
-{
+- (CardMatchingGame *)game {
     if (!_game) _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count
                                                           usingDeck:[[PlayingCardDeck alloc] init]];
     return _game;
 }
 
-- (void)setCardButtons:(NSArray *)cardButtons
-{
+- (void)setCardButtons:(NSArray *)cardButtons {
     _cardButtons = cardButtons;
     [self updateUI];
 }
 
-- (IBAction)dealGame:(id)sender
-{
+- (IBAction)dealGame:(id)sender {
     self.game = nil;
     [self updateUI];
 }
 
-- (void)updateUI
-{
+- (void)updateUI {
     for (UIButton *cardButton in self.cardButtons) {
         Card *card = [self.game cardAtIndex:[self.cardButtons indexOfObject:cardButton]];
         [cardButton setTitle:card.contents forState:UIControlStateSelected];
@@ -55,15 +51,13 @@
     self.GameTurnLabel.text = self.game.gameTurn;
 }
 
-- (void)setFlipCount:(int)flipCount
-{
+- (void)setFlipCount:(int)flipCount {
     _flipCount = flipCount;
     self.flipsLabel.text = [NSString stringWithFormat:@"Flips: %d", self.flipCount];
     NSLog(@"flips updated to %d", self.flipCount);
 }
 
-- (IBAction)flipCard:(UIButton *)sender
-{
+- (IBAction)flipCard:(UIButton *)sender {
     [self.game flipCardAtIndex:[self.cardButtons indexOfObject:sender]];
     self.flipCount++;
     [self updateUI];

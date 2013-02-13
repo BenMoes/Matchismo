@@ -17,20 +17,17 @@
 
 @implementation CardMatchingGame
 
-- (NSMutableArray *)cards
-{
+- (NSMutableArray *)cards {
     if (!_cards) _cards = [[NSMutableArray alloc] init];
     return _cards;
 }
 
-- (NSString *)gameTurn
-{
+- (NSString *)gameTurn {
     if (!_gameTurn) _gameTurn = [[NSString alloc] init];
     return _gameTurn;
 }
 
-- (id)initWithCardCount:(NSUInteger)count usingDeck:(Deck *) deck
-{
+- (id)initWithCardCount:(NSUInteger)count usingDeck:(Deck *) deck {
     self = [super init];
     
     if (self) {
@@ -46,8 +43,7 @@
     return self;
 }
 
-- (Card *)cardAtIndex:(NSUInteger)index
-{
+- (Card *)cardAtIndex:(NSUInteger)index {
     return (index < self.cards.count) ? self.cards[index] : nil;
 }
 
@@ -55,8 +51,7 @@
 #define MISMATCH_PENALTY 2
 #define MATCH_BONUS 4
 
-- (void)flipCardAtIndex:(NSUInteger)index
-{
+- (void)flipCardAtIndex:(NSUInteger)index {
     
     self.gameTurn = @"";
     Card *card = [self cardAtIndex:index];
